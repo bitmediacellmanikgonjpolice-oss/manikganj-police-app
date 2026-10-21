@@ -27,13 +27,22 @@ jobs:
           cp -r _tmp/android ./android
           rm -rf _tmp
 
-      - name: Patch AndroidManifest (internet permission + app name)
+            - name: Patch AndroidManifest (internet permission + app name)
         run: |
           M=android/app/src/main/AndroidManifest.xml
           sed -i '0,/<manifest[^>]*>/s//&\n    <uses-permission android:name="android.permission.INTERNET"\/>/' $M
           sed -i 's/android:label="[^"]*"/android:label="Manikganj Police"/' $M
+          cat > queries.txt <<'EOT'
+              <queries>
+                  <intent><action android:name="android.intent.action.VIEW"/><data android:scheme="tel"/></intent>
+                  <intent><action android:name="android.intent.action.VIEW"/><data android:scheme="sms"/></intent>
+                  <intent><action android:name="android.intent.action.VIEW"/><data android:scheme="mailto"/></intent>
+                  <intent><action android:name="android.intent.action.VIEW"/><data android:scheme="https"/></intent>
+                  <intent><action android:name="android.intent.action.VIEW"/><data android:scheme="geo"/></intent>
+              </queries>
+          EOT
+          sed -i '/<application/e cat queries.txt' $M
           cat $M
-
       - name: Install dependencies
         run: flutter pub get
 
