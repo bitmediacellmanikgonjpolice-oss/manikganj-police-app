@@ -31,6 +31,7 @@ jobs:
         run: |
           M=android/app/src/main/AndroidManifest.xml
           sed -i '0,/<manifest[^>]*>/s//&\n    <uses-permission android:name="android.permission.INTERNET"\/>/' $M
+          sed -i '0,/<uses-permission[^>]*>/s//&\n    <uses-permission android:name="android.permission.CALL_PHONE"\/>/' $M
           sed -i 's/android:label="[^"]*"/android:label="Manikganj Police"/' $M
           cat > queries.txt <<'EOT'
               <queries>
