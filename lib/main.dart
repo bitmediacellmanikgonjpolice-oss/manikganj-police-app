@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -98,6 +97,7 @@ class _WebPageState extends State<WebPage> {
   late final WebViewController _controller;
   int _progress = 0;
   bool _hasError = false;
+
   Future<void> _askPhonePermission() async {
     final status = await Permission.phone.status;
     if (!status.isGranted) {
@@ -109,10 +109,6 @@ class _WebPageState extends State<WebPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _askPhonePermission());
-    _controller = WebViewController()
-  @override
-  void initState() {
-    super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(Colors.white)
