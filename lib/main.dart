@@ -98,7 +98,18 @@ class _WebPageState extends State<WebPage> {
   late final WebViewController _controller;
   int _progress = 0;
   bool _hasError = false;
+  Future<void> _askPhonePermission() async {
+    final status = await Permission.phone.status;
+    if (!status.isGranted) {
+      await Permission.phone.request();
+    }
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _askPhonePermission());
+    _controller = WebViewController()
   @override
   void initState() {
     super.initState();
